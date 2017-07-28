@@ -1,0 +1,11 @@
+.canvas-container {
+  border: 1px solid #000;
+  position: relative;
+  width: 50vw !important;
+  height: 50vw !important;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}

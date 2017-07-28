@@ -1,0 +1,54 @@
+import walkCanvas from './walkCanvas'
+
+require('script-loader!fabric') // require fabric library
+
+const imgLoader = document.createElement('input')
+imgLoader.setAttribute('type', 'file')
+imgLoader.setAttribute('id', 'imgLoader')
+
+imgLoader.addEventListener('change', e => {
+  let canvas = walkCanvas.id
+  console.log(canvas)
+  canvas = document.getElementById(walkCanvas.id)
+  console.log(canvas)
+  canvas = canvas.fabric // get canvas object
+  console.log(canvas)
+  const files = e.target.files || e.dataTransfer.files // get uploaded file(s)
+  const reader = new FileReader() // create new file reader
+  reader.onload = e => { // reader load event
+    let backgroundObj = new Image() // create new image object
+    backgroundObj.src = e.target.result // assign uploaded image to new image object
+    backgroundObj.onload = () => { // image load event
+      const objects = canvas.getObjects() // get array of all canvas objects
+      const background = new fabric.Image(backgroundObj) // create new fabric image from uploaded object
+      for (let i = 0; i < objects.length; i++) { // loop through canvas objects
+        if (objects[i].id === 'background') { // if object in loop is background
+          objects[i].remove() // remove background object
+          break
+        }
+      }
+      let scale, width, height // create some useful variables
+      if (background.width <= background.height) { // set scale, width, and height for tall/square image
+        scale = background.width / canvas.width
+        width = canvas.width
+        height = background.height / scale
+      } else { // set scale, width, and height for wide image
+        scale = background.height / canvas.height
+        height = canvas.height
+        width = background.width / scale
+      }
+      background.set({ // set background options including id
+        width: width,
+        height: height,
+        id: 'background'
+      })
+      canvas.add(background) // add background
+      background.center() // center background
+      background.setCoords() // set background's coordinates after center
+      canvas.sendToBack(background) // send background to back
+    }
+  }
+  reader.readAsDataURL(files[0])
+})
+
+export default imgLoader
