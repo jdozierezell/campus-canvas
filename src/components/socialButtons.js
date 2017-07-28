@@ -1,5 +1,7 @@
 import { saveAs } from '../js/file-saver.min.js'
 
+import socialModal from './socialModal'
+
 require('script-loader!../js/canvas-toBlob.js')
 
 const downloadEl = document.createElement('button'),
@@ -25,7 +27,9 @@ downloadEl.addEventListener('click', e => {
 facebookEl.id = 'facebook'
 facebookEl.textContent = 'Facebook'
 facebookEl.addEventListener('click', e => {
-  console.log('Facebook clicked')
+  const src = document.getElementById(canvasId).toDataURL('image/jpeg')
+  socialModal('Facebook', src)
+  // console.log(src)
 })
 
 // twitterEl attributes and listeners
@@ -33,6 +37,7 @@ twitterEl.id = 'twitter'
 twitterEl.textContent = 'Twitter'
 twitterEl.addEventListener('click', e => {
   console.log('Twitter clicked')
+  socialModal('Twitter')
 })
 
 // socialButtons attributes
