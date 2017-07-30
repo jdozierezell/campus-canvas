@@ -9,3 +9,32 @@ canvas {
   width: 100% !important;
   height: auto !important;
 }
+
+.button-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 50vw;
+}
+
+.social-button {
+  flex: 1 0 29%;
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Open Sans';
+  text-decoration: none;
+  padding: 13px 20px;
+  margin: 1%;
+  background-color: #f36f21;
+  border-radius: 5px;
+  border: 0;
+}
+
+.social-button:first-child {
+  margin-left: 0;
+}
+
+.social-button:last-child {
+  margin-right: 0;
+}

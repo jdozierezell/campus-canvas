@@ -1,7 +1,11 @@
-require('script-loader!../js/socialFunctions/dataURI.js') // require data URI function
-require('script-loader!../js/socialFunctions/facebook.js') // require facebook
+import dataURItoBlob from '../js/socialFunctions/dataURI' // require data URI function
+import postCanvasToTwitter from '../js/socialFunctions/twitter' // require twitter functions
 
-export default function socialModal (network, image) {
+require('script-loader!../js/canvas-toBlob.js') // require canvas-toBlob functions
+require('script-loader!../js/socialFunctions/oauth.min.js') // require oauth
+require('script-loader!../js/socialFunctions/facebook.js') // require facebook functions
+
+export default function socialModal (network, image, filename) {
   console.log(network)
 
   // network specific configs
@@ -46,10 +50,29 @@ export default function socialModal (network, image) {
 
   postButton.addEventListener('click', e => {
     const message = userMessage.value
-    try {
-      blob = dataURItoBlob(image)
-    } catch (e) {
-      console.log(e)
+    if (network === 'Facebook') {
+      try {
+        const blob = dataURItoBlob(image)
+      } catch (e) {
+        console.log(e)
+      }
+      FB.getLoginStatus(function (response) {
+        console.log(response)
+        // if (response.status === 'connected') {
+        //   postImageToFacebook(response.authResponse.accessToken, filename, 'image/jpeg', blob, facebookMessage)
+        // } else if (response.status == 'not_authorized') {
+        //   FB.login(function (response) {
+        //     postImageToFacebook(response.authResponse.accessToken, filename, 'image/jpeg', blob, facebookMessage)
+        //   }, {scope: 'publish_actions'})
+        // } else {
+        //   FB.login(function (response) {
+        //     postImageToFacebook(response.authResponse.accessToken, filename, 'image/jpeg', blob, facebookMessage)
+        //   }, {scope: 'publish_actions'})
+        // }
+      })
+    } else if (network === 'Twitter') {
+      OAuth.initialize('Zw8PiMk6fP8HN49YN4I0YYI_1IE')
+      postCanvasToTwitter(image, message)
     }
   })
 
