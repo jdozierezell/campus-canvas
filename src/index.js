@@ -14,7 +14,7 @@ walkCanvasWrapper.setAttribute('id', 'campus-canvas-wrapper')
 walkCanvasWrapper.appendChild(imgLoader)
 walkCanvasWrapper.appendChild(walkCanvas)
 walkCanvasWrapper.appendChild(socialButtons)
-document.body.appendChild(walkCanvasWrapper)
+document.getElementById('app-container').appendChild(walkCanvasWrapper)
 
 const canvas = new fabric.Canvas(walkCanvas.id, {
   width: 1080,
@@ -23,20 +23,21 @@ const canvas = new fabric.Canvas(walkCanvas.id, {
 
 document.getElementById('canvas').fabric = canvas // create canvas object as an attribute on the actual canvas
 
-const text = new fabric.IText('sample', {
-  originX: 'center',
+const text = new fabric.IText('Because I Can Stop Suicide', {
+  // originX: 'center',
   originY: 'center',
-  textAlign: 'center',
+  // textAlign: 'center',
   hoverCursor: 'text',
-  left: 540,
+  left: 210,
   top: 825,
-  maxWidth: 200,
+  width: 300,
   fontFamily: 'Permanent Marker',
   fontSize: 50,
   hasBorders: false,
   hasControls: false,
   lockMovementX: true,
-  lockMovementY: true
+  lockMovementY: true,
+  id: 'text'
 })
 canvas.add(text)
 
@@ -57,4 +58,17 @@ const titles = fabric.Image.fromURL(titleImg, image => {
   crossOrigin: 'anonymous',
   selectable: false,
   id: 'titles'
+})
+
+text.on('changed', function (options) {
+  this.left = (1080 - this.width) / 2 - 10
+  console.log(this.width)
+  console.log(this.left)
+  console.log(this)
+  if (this.width >= 635) {
+    const newText = this.text.slice(0, -1)
+    this.text = newText
+    this.hiddenTextarea.value = newText
+    console.log(this)
+  }
 })
