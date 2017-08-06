@@ -1,34 +1,38 @@
 import walkCanvas from './walkCanvas'
 
+// eslint-disable-next-line
 require('script-loader!fabric') // require fabric library
 
 const imgLoader = document.createElement('input')
+imgLoader.className = 'canvas-input'
 imgLoader.setAttribute('type', 'file')
 imgLoader.setAttribute('id', 'imgLoader')
 
-imgLoader.addEventListener('change', e => {
+imgLoader.addEventListener('change', (e) => {
   let canvas = walkCanvas.id
-  console.log(canvas)
   canvas = document.getElementById(walkCanvas.id)
-  console.log(canvas)
   canvas = canvas.fabric // get canvas object
-  console.log(canvas)
   const files = e.target.files || e.dataTransfer.files // get uploaded file(s)
   const reader = new FileReader() // create new file reader
-  reader.onload = e => { // reader load event
-    let backgroundObj = new Image() // create new image object
+  reader.onload = () => { // reader load event
+    const backgroundObj = new Image() // create new image object
     backgroundObj.src = e.target.result // assign uploaded image to new image object
     backgroundObj.onload = () => { // image load event
       const objects = canvas.getObjects() // get array of all canvas objects
-      const background = new fabric.Image(backgroundObj) // create new fabric image from uploaded object
-      for (let i = 0; i < objects.length; i++) { // loop through canvas objects
+      const background = new fabric.Image(backgroundObj) // create new image from uploaded object
+      for (let i = 0; i < objects.length; i += 1) { // loop through canvas objects
         if (objects[i].id === 'background') { // if object in loop is background
           objects[i].remove() // remove background object
           break
         }
       }
-      let scale, width, height // create some useful variables
-      if (background.width <= background.height) { // set scale, width, and height for tall/square image
+      // create some useful variables
+      let scale
+      let width
+      let height
+
+      // set scale, width, and height for tall/square image
+      if (background.width <= background.height) {
         scale = background.width / canvas.width
         width = canvas.width
         height = background.height / scale
@@ -38,9 +42,9 @@ imgLoader.addEventListener('change', e => {
         width = background.width / scale
       }
       background.set({ // set background options including id
-        width: width,
-        height: height,
-        id: 'background'
+        width,
+        height,
+        id: 'background',
       })
       canvas.add(background) // add background
       background.center() // center background

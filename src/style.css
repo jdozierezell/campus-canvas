@@ -1,8 +1,11 @@
+body > textarea {
+  position: initial !important;
+}
+
 .canvas-container {
-  border: 1px solid #000;
   position: relative;
-  width: 50vw !important;
-  height: 50vw !important;
+  width: 100% !important;
+  height: auto !important;
   margin: 1rem auto;
 }
 
@@ -17,9 +20,10 @@ canvas {
   align-items: center;
   justify-content: space-between;
   width: 50vw;
+  padding-top: 100%;
 }
 
-.social-button {
+.canvas-input, .social-button, .modal__button {
   flex: 1 0 29%;
   color: #fff;
   font-size: 16px;
@@ -30,6 +34,13 @@ canvas {
   background-color: #f36f21;
   border-radius: 5px;
   border: 0;
+  cursor: pointer;
+}
+
+.canvas-input {
+  margin: 0;
+  padding: 1rem;
+  width: calc(100% - 2rem);
 }
 
 .social-button:first-child {
@@ -38,4 +49,35 @@ canvas {
 
 .social-button:last-child {
   margin-right: 0;
+}
+
+.modal__overlay {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(48, 53, 57, 0.7);
+}
+
+.modal {
+  position: fixed;
+  z-index: 100;
+  top: 10vh;
+  left: 10vw;
+  width: 80vw;
+  height: 80vh;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.modal__header, .modal__body, .modal__button {
+  font-family: 'Open Sans';
+}
+
+.modal > textarea {
+  width: calc(100% - 0.5rem); /* textarea misses the mark just a little, the 0.5rem calculation sets it right */
+  margin: 1rem auto;
 }
